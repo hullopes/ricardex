@@ -123,14 +123,15 @@ var gridPreenchido = new Array();
 			var width = element.duracao * 60;//60 é a largura padrão de cada quadro no gráfico.
 			var height = element.recurso * 60;
 			var inicioX= element.inicio * 60;
-			var inicioY= 540 - (element.recurso * 60);
+			//var inicioY= 540 - (element.recurso * 60);
+			var inicioY = 480;
 			//x,y,largura,altura
 			//alert(checaPosicaoOcupada(element.inicio,element.recurso,element.duracao,element.recurso));
 
 			checaChoque(width,height,inicioX,inicioY);
 
 			if (element.recurso > 0){
-				var novaAtividade = "<div class=\"quadroAtividade\" id='item-"+contador+"' style=\"width: "+width+"px; height: "+height+"px; bottom: -480px; left: "+inicioX+"px;\">"+element.atividade+"</div>";
+				var novaAtividade = "<div class=\"quadroAtividade\" id='item-"+contador+"' style=\"width: "+width+"px; height: "+height+"px; bottom: -"+inicioY+"px; left: "+inicioX+"px;\">"+element.atividade+"</div>";
 				$("#contGraph").append(novaAtividade);
 				contador++;
 			}	
