@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Gráfico Ricardex</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap-4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+
+</head>
+<body>
+
+<div class="container center">
+	
+	<div class="graph">
+		<div class="axis">
+			<div class="portaYAxis" id="axisY">
+				<div class="rowYAxis"><li>8</li></div>
+				<div class="rowYAxis"><li>7</li></div>
+				<div class="rowYAxis"><li>6</li></div>
+				<div class="rowYAxis"><li>5</li></div>
+				<div class="rowYAxis"><li>4</li></div>
+				<div class="rowYAxis"><li>3</li></div>
+				<div class="rowYAxis"><li>2</li></div>
+				<div class="rowYAxis"><li>1</li></div>
+				<div class="rowYAxis zeroYAxis"><li>0</li></div>
+			</div>
+			<div class="portaXAxis" id="axisX">
+				<div class="colXAxis"><li>1</li></div>
+				<div class="colXAxis"><li>2</li></div>
+				<div class="colXAxis"><li>3</li></div>
+				<div class="colXAxis"><li>4</li></div>
+				<div class="colXAxis"><li>5</li></div>
+				<div class="colXAxis"><li>6</li></div>
+				<div class="colXAxis"><li>7</li></div>
+				<div class="colXAxis"><li>8</li></div>
+				<div class="colXAxis"><li>9</li></div>
+				<div class="colXAxis"><li>10</li></div>
+				<div class="colXAxis"><li>11</li></div>
+				<div class="colXAxis"><li>12</li></div>
+				<div class="colXAxis"><li>13</li></div>
+			</div>
+			<!-- cabra que vai receber os gráficos dinamicamente pelo jquery -->
+			<div class="conteudoGrafico" id="contGraph">
+				
+			</div>
+			<!-- fecha o cara que vai baixar os quadros, tipo pomba-gira -->
+		</div>	
+	</div>	
+</div>
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script>
+var grid = new Array();
+var gridPreenchido = new Array();
+
+	$(document).ready(function(){
+
+		grid = posicoesPossiveis();
+		gridPreenchido = grid;
+
+		//handler chamado ao completo carregamento da página
+		var array_atividade = [
+			{
+				"atividade" : 1,
+				"duracao"	: 0,
+				"inicio"	: 0,
+				"fim"		: 0,
+				"recurso"	: 0,
+			},
+			{
+				"atividade" : 2,
+				"duracao"	: 1,
+				"inicio"	: 0,
+				"fim"		: 1,
+				"recurso"	: 1,
+			},
+			{
+				"atividade" : 3,
+				"duracao"	: 2,
+				"inicio"	: 2,
+				"fim"		: 4,
+				"recurso"	: 2,
+			},
+			{
+				"atividade" : 4,
+				"duracao"	: 4,
+				"inicio"	: 4,
+				"fim"		: 8,
+				"recurso"	: 2,
+			},
+			{
+				"atividade" : 5,
+				"duracao"	: 3,
+				"inicio"	: 0,
+				"fim"		: 3,
+				"recurso"	: 2,
+			},
+			{
+				"atividade" : 6,
+				"duracao"	: 1,
+				"inicio"	: 1,
+				"fim"		: 2,
+				"recurso"	: 2,
+			},
+			{
+				"atividade" : 7,
+				"duracao"	: 5,
+				"inicio"	: 2,
+				"fim"		: 7,
+				"recurso"	: 1,
+			},
+			{
+				"atividade" : 8,
+				"duracao"	: 3,
+				"inicio"	: 3,
+				"fim"		: 6,
+				"recurso"	: 2,
+			}
+		];
+		contador = 0;
+		$(array_atividade).each(function(index,element){
+
+			var width = element.duracao * 60;//60 é a largura padrão de cada quadro no gráfico.
+			var height = element.recurso * 60;
+			var inicioX= element.inicio * 60;
+			var inicioY= 540 - (element.recurso * 60);
+			//x,y,largura,altura
+			//alert(checaPosicaoOcupada(element.inicio,element.recurso,element.duracao,element.recurso));
+
+			checaChoque(width,height,inicioX,inicioY);
+
+			if (element.recurso > 0){
+				var novaAtividade = "<div class=\"quadroAtividade\" id='item-"+contador+"' style=\"width: "+width+"px; height: "+height+"px; bottom: -480px; left: "+inicioX+"px;\">"+element.atividade+"</div>";
+				$("#contGraph").append(novaAtividade);
+				contador++;
+			}	
+		});
+		
+		varreGrid();
+	});
+	function checaChoque(width,height,inicioX,inicioY){
+		$(".quadroAtividade").each(function () {
+				//console.log($(this).context);
+				//console.log($(this));
+				//if((inicioX+width))
+			});
+	}
+	function varreGrid(){
+		$(".quadroAtividade").each(function () {
+				//console.log($(this).context);
+				console.log($(this));
+			});
+	}
+
+	function checaPosicaoOcupada(x,y,largura,altura){
+		var checa = true;
+		for(linha=y;linha<=(y+altura);linha++){
+			for(coluna=x;coluna<=(x+largura);coluna++){
+				if(gridPreenchido[linha][coluna]=='x')
+					checa = false;
+			}
+		}
+		return checa;
+	}
+	function marcaPosicaoOcupada(x,y,largura,altura){
+		var checa = true;
+		for(linha=y;linha<=(y+altura);linha++){
+			for(coluna=x;coluna<=(x+largura);coluna++){
+				gridPreenchido[linha][coluna]='x';
+			}
+		}
+	}
+
+	function posicoesPossiveis(){
+		var posicoes = new Array();
+		var cont=0;		
+		for(i=$('.rowYAxis').size()-1;i>=0;i--){
+			var colunas = new Array();
+			cont=0;
+			$('.colXAxis').each(function () {
+				colunas[cont] = $(this).context.lastChild.innerText;
+				cont++;
+			});
+			posicoes[i] = colunas;
+
+		}
+		return posicoes;
+	}
+	for(i=0;i<gridPreenchido.length;i++){
+		alert(gridPreenchido[i]);
+	}
+</script>
+</body>
+</html>
